@@ -1,3 +1,7 @@
 Flask
+<<<<<<< HEAD
 git+https://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@github.com/hmallen/understatapi.git
 
+=======
+git+https://${UNDERSTAT_PAT}@github.com/hmallen/understatapi.git
+>>>>>>> f9899e3 (Use environment variable for PAT)
