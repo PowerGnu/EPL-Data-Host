@@ -1,0 +1,2 @@
+Flask
+git+https://INSERT_PAT_HERE@github.com/hmallen/understatapi.git
