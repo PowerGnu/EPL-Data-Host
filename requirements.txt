@@ -1,6 +1,7 @@
 Flask
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 git+https://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@github.com/hmallen/understatapi.git
 
 =======
@@ -9,3 +10,6 @@ git+https://${UNDERSTAT_PAT}@github.com/hmallen/understatapi.git
 =======
 git+https://INSERT_PAT_HERE@github.com/hmallen/understatapi.git
 >>>>>>> 5d4c714 (Add requirements.sh for build process)
+=======
+git+https://$UNDERSTAT_PAT@github.com/hmallen/understatapi.git
+>>>>>>> e5145cd (Add Flask app and deployment files)
