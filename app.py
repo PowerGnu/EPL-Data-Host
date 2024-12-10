@@ -1,48 +1,73 @@
-from flask import Flask, jsonify, request
 import os
 import json
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# Adding a comment to force redeployment
-# Define JSON file paths
+# Load JSON data
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PLAYERS_FILE = os.path.join(BASE_DIR, "EPL_Players_2024.json")
-ALL_PLAYERS_FILE = os.path.join(BASE_DIR, "EPL_AllPlayers_2024.json")
-MATCHES_FILE = os.path.join(BASE_DIR, "EPL_Matches_2024.json")
-TEAMS_FILE = os.path.join(BASE_DIR, "EPL_Teams_2024.json")
+DATA_FILES = {
+    "players": os.path.join(BASE_DIR, "EPL_Players_2024.json"),
+    "all_players": os.path.join(BASE_DIR, "EPL_AllPlayers_2024.json"),
+    "matches": os.path.join(BASE_DIR, "EPL_Matches_2024.json"),
+    "teams": os.path.join(BASE_DIR, "EPL_Teams_2024.json"),
+}
 
-# Helper function to load JSON data
-def load_json(file_path):
+data = {}
+for key, file_path in DATA_FILES.items():
     try:
         with open(file_path, "r") as f:
-            return json.load(f)
-    except Exception as e:
-        return {"error": str(e)}
+            data[key] = json.load(f)
+    except FileNotFoundError:
+        print(f"Warning: {file_path} not found. {key} endpoint will not work.")
 
-@app.route("/")
+@app.route('/')
 def home():
     return "Welcome to the EPL Data API! Use /players, /all_players, /matches, or /teams to access data."
 
-@app.route("/players", methods=["GET"])
+@app.route('/list-files', methods=['GET'])
+def list_files():
+    """Diagnostic route to list all files in the deployment directory."""
+    return jsonify(os.listdir(BASE_DIR))
+
+@app.route('/players', methods=['GET'])
 def get_players():
-    team = request.args.get("team")
-    data = load_json(PLAYERS_FILE)
+    team = request.args.get('team')
+    if "players" not in data:
+        return jsonify({"error": "Player data not available"}), 500
+
     if team:
-        data = [player for player in data if player.get("team_title") == team]
-    return jsonify(data)
+        filtered_players = [player for player in data["players"] if player["team_title"].lower() == team.lower()]
+        return jsonify(filtered_players)
 
-@app.route("/all_players", methods=["GET"])
+    return jsonify(data["players"])
+
+@app.route('/all_players', methods=['GET'])
 def get_all_players():
-    return jsonify(load_json(ALL_PLAYERS_FILE))
+    if "all_players" not in data:
+        return jsonify({"error": "All players data not available"}), 500
+    return jsonify(data["all_players"])
 
-@app.route("/matches", methods=["GET"])
+@app.route('/matches', methods=['GET'])
 def get_matches():
-    return jsonify(load_json(MATCHES_FILE))
+    date = request.args.get('date')
+    if "matches" not in data:
+        return jsonify({"error": "Match data not available"}), 500
 
-@app.route("/teams", methods=["GET"])
+    if date:
+        filtered_matches = [match for match in data["matches"] if match["datetime"].startswith(date)]
+        return jsonify(filtered_matches)
+
+    return jsonify(data["matches"])
+
+@app.route('/teams', methods=['GET'])
 def get_teams():
-    return jsonify(load_json(TEAMS_FILE))
+    if "teams" not in data:
+        return jsonify({"error": "Team data not available"}), 500
+    return jsonify(data["teams"])
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    print("Starting Flask app with registered routes:")
+    print(app.url_map)  # Logs all registered routes
+    app.run(host='0.0.0.0', port=port)
