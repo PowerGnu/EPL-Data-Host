@@ -1,2 +1,2 @@
 Flask
-git+https://INSERT_PAT_HERE@github.com/hmallen/understatapi.git
+git+https://$UNDERSTAT_PAT@github.com/hmallen/understatapi.git
