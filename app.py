@@ -4,6 +4,7 @@ import json
 
 app = Flask(__name__)
 
+# Adding a comment to force redeployment
 # Define JSON file paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PLAYERS_FILE = os.path.join(BASE_DIR, "EPL_Players_2024.json")
