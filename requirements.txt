@@ -1,3 +1,2 @@
 Flask
-git+https://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@github.com/hmallen/understatapi.git
-
+git+https://INSERT_PAT_HERE@github.com/hmallen/understatapi.git
