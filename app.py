@@ -64,7 +64,6 @@ DATA_FILES = {
     "teams": os.path.join(BASE_DIR, "EPL_Teams_2024.json"),
 }
 
-47e83f5c75916e6fcc3bc443d6a81e486cedfd33
 # JSON Schemas for Validation
 def generate_properties(key):
     if key in ["all_players", "players"]:
@@ -188,7 +187,6 @@ from functools import lru_cache
 
 @lru_cache(maxsize=10)
 def load_json_file(file_path, schema=None):
-47e83f5c75916e6fcc3bc443d6a81e486cedfd33
     try:
         with open(file_path, "r") as f:
             data = json.load(f)
@@ -439,7 +437,6 @@ def paginate(data_list):
     start = (page - 1) * per_page
     end = start + per_page
     return data_list[start:end]
-47e83f5c75916e6fcc3bc443d6a81e486cedfd33
 
 @app.route('/')
 def home():
@@ -539,4 +536,3 @@ if __name__ == '__main__':
         port = 5000  # Default to 5000
     logging.info(f"Starting server on port {port}...")
     app.run(host='0.0.0.0', port=port)
-47e83f5c75916e6fcc3bc443d6a81e486cedfd33
