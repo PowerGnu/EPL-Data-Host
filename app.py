@@ -15,7 +15,6 @@ from flask import Flask, jsonify, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from jsonschema import validate, ValidationError
-<<<<<<< HEAD
 from datetime import datetime
 from functools import lru_cache
 
@@ -44,7 +43,6 @@ DATA_FILES = {
 }
 logging.info(f"Data files configured: {DATA_FILES}")
 
-=======
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -66,7 +64,7 @@ DATA_FILES = {
     "teams": os.path.join(BASE_DIR, "EPL_Teams_2024.json"),
 }
 
->>>>>>> 47e83f5c75916e6fcc3bc443d6a81e486cedfd33
+47e83f5c75916e6fcc3bc443d6a81e486cedfd33
 # JSON Schemas for Validation
 def generate_properties(key):
     if key in ["all_players", "players"]:
@@ -99,7 +97,6 @@ SCHEMAS = {
             "properties": generate_properties(key),
             "required": list(generate_properties(key).keys())
         }
-<<<<<<< HEAD
     } for key in DATA_FILES.keys()  # No comma after this line
 }
 
@@ -112,7 +109,6 @@ logging.info("JSON schemas for validation have been generated.")
 @lru_cache(maxsize=10)
 def load_json_file(file_path, schema=None):
     """Load and validate JSON data from a file."""
-=======
     }
     for key in DATA_FILES.keys()
 } for key in DATA_FILES.keys()},
@@ -192,13 +188,12 @@ from functools import lru_cache
 
 @lru_cache(maxsize=10)
 def load_json_file(file_path, schema=None):
->>>>>>> 47e83f5c75916e6fcc3bc443d6a81e486cedfd33
+47e83f5c75916e6fcc3bc443d6a81e486cedfd33
     try:
         with open(file_path, "r") as f:
             data = json.load(f)
             if schema:
                 validate(instance=data, schema=schema)
-<<<<<<< HEAD
             logging.info(f"Successfully loaded and validated data from {file_path}.")
             return data
     except FileNotFoundError:
@@ -340,8 +335,7 @@ def get_teams():
 
     logging.info(f"Returning {len(teams)} team records.")
     return jsonify(paginate(teams))
-=======
-            return data
+    return data
     except FileNotFoundError:
         logging.warning(f"File not found: {file_path}")
         return []
@@ -445,12 +439,11 @@ def paginate(data_list):
     start = (page - 1) * per_page
     end = start + per_page
     return data_list[start:end]
->>>>>>> 47e83f5c75916e6fcc3bc443d6a81e486cedfd33
+47e83f5c75916e6fcc3bc443d6a81e486cedfd33
 
 @app.route('/')
 def home():
     """
-<<<<<<< HEAD
     Home route for the EPL API.
     """
     return jsonify({
@@ -469,7 +462,7 @@ if __name__ == "__main__":
         app.run(host="0.0.0.0", port=5000, debug=True)
     except Exception as e:
         logging.error(f"Error occurred while running the server: {e}")
-=======
+
     Welcome Endpoint
     ---
     This endpoint provides an overview of available API routes and their query parameters, along with rate-limiting information.
@@ -546,4 +539,4 @@ if __name__ == '__main__':
         port = 5000  # Default to 5000
     logging.info(f"Starting server on port {port}...")
     app.run(host='0.0.0.0', port=port)
->>>>>>> 47e83f5c75916e6fcc3bc443d6a81e486cedfd33
+47e83f5c75916e6fcc3bc443d6a81e486cedfd33
