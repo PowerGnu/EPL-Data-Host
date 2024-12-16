@@ -27,6 +27,28 @@ def load_json_file(file_path):
         return jsonify({"error": f"Failed to load file {file_path}: {str(e)}"}), 500
 
 # Query handlers
+def handle_player_query(payload):
+    name = payload.get("name")
+    metrics = payload.get("metrics")
+
+    # Load the players dataset
+    players = load_json_file(DATA_FILES["players"])
+    player_data = [p for p in players if p["player_name"].lower() == name.lower()]
+
+    if not player_data:
+        return jsonify({"error": "Player not found"}), 404
+
+    # Filter metrics if specified
+    if metrics:
+        metrics = [m.lower() for m in metrics]
+        player_data = [
+            {k: v for k, v in player.items() if k.lower() in metrics}
+            for player in player_data
+        ]
+
+    return jsonify(player_data)
+
+
 def handle_team_query(payload):
     try:
         # Extract name and metrics from the payload
